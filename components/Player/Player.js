@@ -1,11 +1,22 @@
 import ReactPlayer from "react-player";
+import classNames from "classnames";
 import styles from "./player.module.css";
 
-const Player = ({ url, muted, playing }) => {
+const Player = ({ url, muted, playing, isActive }) => {
   return (
-    <div className={styles.videoPlayer}>
-      <ReactPlayer url={url} muted={muted} playing={playing} />
-      <h1>Video is playing</h1>
+    <div
+      className={classNames(styles.playerContainer, {
+        [styles.isActive]: isActive,
+        [styles.notActive]: !isActive,
+      })}
+    >
+      <ReactPlayer
+        url={url}
+        muted={true}
+        playing={playing}
+        height="100%"
+        width="100%"
+      />
     </div>
   );
 };

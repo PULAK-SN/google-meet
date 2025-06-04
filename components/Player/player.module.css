@@ -1,6 +1,9 @@
-/* .videoPlayer {
-  width: 400px;
-  height: 400px;
-  background-color: #000;
-  z-index: 2;
-} */
+.playerContainer {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.isActive {
+  border-radius: 10px;
+}
