@@ -1,7 +1,7 @@
 import ReactPlayer from "react-player";
 import classNames from "classnames";
 import styles from "./player.module.css";
-
+import { Mic, MicOff, SquareUser } from "lucide-react";
 const Player = ({ url, muted, playing, isActive }) => {
   return (
     <div
@@ -10,13 +10,18 @@ const Player = ({ url, muted, playing, isActive }) => {
         [styles.notActive]: !isActive,
       })}
     >
-      <ReactPlayer
-        url={url}
-        muted={true}
-        playing={playing}
-        height="100%"
-        width="100%"
-      />
+      {playing ? (
+        <ReactPlayer
+          url={url}
+          muted={muted}
+          playing={playing}
+          height="100%"
+          width="100%"
+        />
+      ) : (
+        <SquareUser size={isActive ? 400 : 250} />
+      )}
+      {!isActive && (muted ? <MicOff size={25} /> : <Mic size={25} />)}
     </div>
   );
 };

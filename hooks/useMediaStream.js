@@ -5,11 +5,12 @@ const useMediaStream = () => {
   const isStream = useRef(false);
 
   useEffect(() => {
+    let stream;
     if (isStream.current) return;
     isStream.current = true;
     (async function initStream() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        stream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true,
         });

@@ -16,6 +16,21 @@ const SocketHandeler = (req, res) => {
         socket.join(roomId);
         socket.broadcast.to(roomId).emit(`user-connected`, userId);
       });
+
+      socket.on(`user-toggle-audio`, (userId, roomId) => {
+        console.log("user toggle the audio ==> socketAPI");
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit(`user-toggle-audio`, userId);
+      });
+
+      socket.on(`user-toggle-video`, (userId, roomId) => {
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit(`user-toggle-video`, userId);
+      });
+      socket.on(`user-leave-room`, (userId, roomId) => {
+        socket.join(roomId);
+        socket.broadcast.to(roomId).emit(`user-leave-room`, userId);
+      });
     });
   }
   res.end();
