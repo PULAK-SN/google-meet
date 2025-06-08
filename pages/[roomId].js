@@ -23,9 +23,11 @@ const Room = () => {
     toggleAudio,
     toggleVideo,
     leaveRoom,
+    users,
+    setusers,
   } = usePlayer(myId, roomId, peer);
 
-  const [users, setusers] = useState("");
+  // const [users, setusers] = useState("");
 
   useEffect(() => {
     if (!socket || !peer || !stream) return;
@@ -57,7 +59,7 @@ const Room = () => {
     return () => {
       socket.off(`user-connected`, handelUserConnected);
     };
-  }, [peer, setPlayers, socket, stream]);
+  }, [peer, setPlayers, setusers, socket, stream]);
 
   useEffect(() => {
     if (!socket) return;
@@ -71,7 +73,7 @@ const Room = () => {
     };
 
     const handelToggleVideo = (userId) => {
-      console.log(`use toggle video with id ${userId}`);
+      console.log(`user toggle video with id ${userId}`);
       setPlayers((prev) => {
         const copy = cloneDeep(prev);
         copy[userId].playing = !copy[userId].playing;

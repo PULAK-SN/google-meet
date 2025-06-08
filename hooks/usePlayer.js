@@ -13,6 +13,7 @@ const usePlayer = (myId, roomId, peer) => {
   delete playersCopy[myId];
   const playersNonHighlited = playersCopy;
   const router = useRouter();
+  const [users, setusers] = useState("");
 
   const leaveRoom = () => {
     socket.emit(`user-leave-room`, myId, roomId);
@@ -65,6 +66,13 @@ const usePlayer = (myId, roomId, peer) => {
             player.url = currentStream;
             copy[myId] = player;
             setPlayers({ ...copy });
+            // 👇 Re-call connected peers with the updated stream
+            Object.values(users).forEach((call) => {
+              const sender = call.peerConnection
+                .getSenders()
+                .find((s) => s.track?.kind === "video");
+              if (sender) sender.replaceTrack(newVideoTrack);
+            });
           })
           .catch((err) => {
             console.error("Error accessing camera: ", err);
@@ -86,6 +94,8 @@ const usePlayer = (myId, roomId, peer) => {
     toggleAudio,
     toggleVideo,
     leaveRoom,
+    users,
+    setusers,
   };
 };
 
