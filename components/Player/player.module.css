@@ -3,14 +3,18 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  padding: 10px;
 }
 
 .isActive {
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mic {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  right: 15px;
+  bottom: 15px;
 }
