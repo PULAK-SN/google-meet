@@ -22,12 +22,7 @@ const Player = ({ url, muted, playing, isActive }) => {
         <SquareUser size={isActive ? 400 : 150} />
       )}
       <div className={styles.mic}>
-        {!isActive &&
-          (muted ? (
-            <MicOff size={25} style={{ color: "red" }} />
-          ) : (
-            <Mic size={25} />
-          ))}
+        {!isActive && (muted ? <MicOff size={25} /> : <Mic size={25} />)}
       </div>
     </div>
   );
