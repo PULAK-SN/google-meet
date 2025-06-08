@@ -8,6 +8,7 @@ import styles from "@/styles/room.module.css";
 import { useRouter } from "next/router";
 import Bottom from "@/components/Bottom";
 import { cloneDeep } from "lodash";
+import CopySection from "@/components/CopySection";
 
 const Room = () => {
   const socket = useSocket();
@@ -168,6 +169,7 @@ const Room = () => {
         toggleVideo={toggleVideo}
         leaveRoom={leaveRoom}
       />
+      <CopySection roomId={roomId} />
     </>
   );
 };

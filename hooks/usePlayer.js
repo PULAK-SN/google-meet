@@ -17,12 +17,19 @@ const usePlayer = (myId, roomId, peer) => {
   const leaveRoom = () => {
     socket.emit(`user-leave-room`, myId, roomId);
     console.log("user leaving room ", roomId);
-    peer?.disconnect();
+
+    //Stop all media tracks before disconnecting
+    const localPlayer = players[myId];
+    if (localPlayer?.url instanceof MediaStream) {
+      localPlayer.url.getTracks().forEach((track) => track.stop());
+    }
+    peer?.destroy();
+    setPlayers({});
     router.push("/");
   };
 
   const toggleAudio = () => {
-    console.log("I touggle my audio");
+    // console.log("I touggle my audio");
     setPlayers((prev) => {
       const copy = cloneDeep(prev);
       copy[myId].muted = !copy[myId].muted;
@@ -33,15 +40,44 @@ const usePlayer = (myId, roomId, peer) => {
   };
 
   const toggleVideo = () => {
-    console.log("I touggle my video");
     setPlayers((prev) => {
       const copy = cloneDeep(prev);
-      copy[myId].playing = !copy[myId].playing;
+      const player = copy[myId];
+
+      if (!player) return prev;
+
+      const currentStream = player.url;
+      if (player?.playing) {
+        // Stop all video tracks to turn off camera
+        currentStream?.getVideoTracks().forEach((track) => track.stop());
+      } else {
+        // Turn video back on
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: false })
+          .then((newStream) => {
+            const newVideoTrack = newStream.getVideoTracks()[0];
+            //Stop old video tracks first
+            currentStream?.getVideoTracks().forEach((track) => track.stop());
+            //Replace track in stream
+            currentStream.removeTrack(currentStream.getVideoTracks()[0]);
+            currentStream.addTrack(newVideoTrack);
+            // DO NOT stop newStream — we need this track alive
+            player.url = currentStream;
+            copy[myId] = player;
+            setPlayers({ ...copy });
+          })
+          .catch((err) => {
+            console.error("Error accessing camera: ", err);
+          });
+      }
+
+      player.playing = !player.playing;
       return { ...copy };
     });
 
     socket.emit("user-toggle-video", myId, roomId);
   };
+
   return {
     players,
     setPlayers,

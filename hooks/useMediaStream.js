@@ -12,15 +12,16 @@ const useMediaStream = () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
           video: true,
-          audio: true,
+          audio: false,
         });
-        console.log("Getting your stream");
+        // console.log("Getting your stream");
         setState(stream);
       } catch (error) {
         console.error("Error in media navigator ", error);
       }
     })();
   }, []);
+
   return { stream: state };
 };
 

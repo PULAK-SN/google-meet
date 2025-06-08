@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .homeContainer h1 {
@@ -19,7 +20,8 @@
   padding: 5px;
   border-radius: 5px;
   margin: 10px;
-  width: 600px;
+  /* min-width: 300px; */
+  max-width: 600px;
   outline: none;
 }
 .homeContainer input::placeholder {

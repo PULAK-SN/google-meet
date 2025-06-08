@@ -1,0 +1,26 @@
+.copyContainer {
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+}
+
+.copyContainer_section {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.copyIcon {
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.copyIcon:hover {
+  color: black;
+  background-color: #f9f9f9;
+}
